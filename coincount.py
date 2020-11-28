@@ -10,6 +10,7 @@ This Program uses Modules like csv, easygui etc.
 import time
 from datetime import datetime
 import csv
+import sys
 from easygui import *
 ###############-VARIABLE SETUP-#########################
 def varsetup():
