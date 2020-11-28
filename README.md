@@ -6,6 +6,13 @@ The 'coincountfile.txt' and ' volunteers.csv' are botht he files for storing the
 
 This program uses the libraries:
     Csv;
-    easygui;
+    easygui; *
     time;
     sys
+    
+This Program works on:
+    Mac OS;
+    Windows;
+    Linux
+
+*You Must have the 'easygui' module installed. To find more information on this visit: http://easygui.sourceforge.net
