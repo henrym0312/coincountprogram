@@ -6,7 +6,7 @@ also access their account to view the Total  or Volunteer Information
 This Program uses Modules like csv, easygui etc.
 """
 
-#This imports the Needed Modules for the Pogram
+#This imports the Needed Modules for the Program
 import time
 from datetime import datetime
 import csv
