@@ -5,22 +5,15 @@ The 'coincount.py' document is my project program.
 The 'coincountfile.txt' and ' volunteers.csv' are both the files for storing the information for the program to read.
 The 'Edexcel_Task_Brief.pdf' Is the official Task Brief For This Project
 
-This program uses the libraries:
-    Csv
+This program uses the libraries:  
+    Csv  
+    easygui*  
+    time  
+    sys  
     
-    easygui*
-    
-    time
-    
-    sys
-    
-This Program works on:
-    Mac OS
-    
-    Windows
-    
-    Linux
-    
-
-
+This Program works on:  
+    Mac OS  
+    Windows  
+    Linux  
+ 
 *You Must have the 'easygui' module installed. To find more information on this visit: http://easygui.sourceforge.net
