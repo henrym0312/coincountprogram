@@ -9,19 +9,14 @@ The 'coincountfile.txt' and ' volunteers.csv' are both the files for storing the
 The 'Edexcel_Task_Brief.pdf' Is the official Task Brief For This Project
 
 This program uses the libraries:
-    Csv;
-    
-    easygui; *
-    
-    time;
-    
+    Csv
+    easygui*
+    time
     sys
     
 This Program works on:
-    Mac OS;
-    
-    Windows;
-    
+    Mac OS
+    Windows
     Linux
     
 
