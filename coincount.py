@@ -150,30 +150,60 @@ def leaderabilitieslogin():
 def leaderabilities():
     #This Function Lets the leader View The Total or View Volunteer Information
     now = datetime.now()
-    optionchoices = ["View Total", "View Volunteer Info.", "Exit Program"]
+    optionchoices = ["View Total", "View Volunteer Info.", "View One Volunteer", "Exit Program"]
     option = buttonbox("Choose a Function", title="Function Choice", choices=optionchoices)
+
     if option == optionchoices[0]:
+        #This Tells The User the Total Amount of money counted by all Volunteers
         file = open("coincountfile.txt", "r")
+        #Reads File into variable, then outputs it along with the Current Time
         total = str(file.read())
         totalp = "£" + total + ".00"
-        dt = now.strftime("%d/%m/%Y %H:%M:%S")
+        dt = now.strftime("%d/%m/%Y %H:%M:%S") #Current Time
         msgbox("The Total Amount of Money Counted so far is: " + str(totalp) + "\n(Last Updated  " + dt + ")")
         logout = ynbox("Would you like to log out of the admin account?: ", title="Logout?")
         if logout == True:
             varsetup()
         if logout == False:
             leaderabilities()
+
     if option == optionchoices[1]:
+        #This Tells the User All the information from every volunteer
+        dt = now.strftime("%d/%m/%Y %H:%M:%S") #Current Time
         with open('volunteers.csv', newline='') as f:
             reader = csv.reader(f)
-            data = [tuple(row) for row in reader]
-            msgbox(msg = str(data[0][0])+"| "+str(data[0][1])+"| "+str(data[0][2])+"\n"+str(data[1][0])+"| "+str(data[1][1])+"| "+str(data[1][2])+"\n"+str(data[2][0])+"| "+str(data[2][1])+"| "+str(data[2][2])+"\n"+str(data[3][0])+"| "+str(data[3][1])+"| "+str(data[3][2])+"\n"+str(data[4][0])+"| "+str(data[4][1])+"| "+str(data[4][2]), title = "Info.")
+            #Reads Data into list, then prints the whole list
+            data = [list(row) for row in reader]
+            msgbox(msg = str(data[0][0])+"| "+str(data[0][1])+"| "+str(data[0][2])+"\n"+str(data[1][0])+"| "+str(data[1][1])+"| "+str(data[1][2])+"\n"+str(data[2][0])+"| "+str(data[2][1])+"| "+str(data[2][2])+"\n"+str(data[3][0])+"| "+str(data[3][1])+"| "+str(data[3][2])+"\n"+str(data[4][0])+"| "+str(data[4][1])+"| "+str(data[4][2]) + "\n\n(Last Updated  " + dt + ")", title = "Info.")
             logout = ynbox("Would you like to log out of the admin account?: ", title="Logout?")
             if logout == True:
                 varsetup()
             if logout == False:
                 leaderabilities()
+
     if option == optionchoices[2]:
+        #This lets the User View One Volunteers info.
+        f = open("volunteers.csv", "r")
+        reader = csv.reader(f)
+        data = []
+        #Reads the csv into list
+        for row in reader:
+            data.append(row)
+        whichv = enterbox("Which Volunteer Would you like to view?", title="Volunteer Picker")
+        for i in range(0,len(data)):
+            #Searches For User, from the name and prints it if it is found
+            if whichv == data[i][0]:
+                onevol = str(data[i][0])+"     |     "+str(data[i][1])+"     |    "+str(data[i][2])
+                msgbox("Volunteer|Total Counted|Accuracy (%)\n"+onevol)
+                startagain = ynbox("Would You Like to Start Again: ", title="Start Again?")
+                if startagain == True:
+                    leaderabilities()
+                else:
+                    exit()
+        if whichv not in data:
+            msgbox("Volunteer Does Not Exist.", title="Not Found")
+
+    if option == optionchoices[3]:
         exit()
 ###############-VOLUNTEER LOGIN-########################
 def volunteerlogin(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong, attemps):
