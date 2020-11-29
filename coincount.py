@@ -14,11 +14,11 @@ import sys
 from easygui import *
 ###############-VARIABLE SETUP-#########################
 def varsetup():
+    #This function Sets up variables and lists/tuples that will be used throughout the program
     retry = True
     #Creating Lists for allowed coin types and for correct bag weights (See 'Analysis' file to see these)
-    cvalues = ["1p", "2p", "5p", "10p", "20p", "50p", "£1", "£2"]
-    bvalues = [356, 356, 325, 325, 250, 160, 175, 120]
-    #Setting up variables that will be used throughout the program
+    cvalues = ("1p", "2p", "5p", "10p", "20p", "50p", "£1", "£2")
+    bvalues = (356, 356, 325, 325, 250, 160, 175, 120)
     sessiontotal = 0
     sessionright = 0
     sessionwrong = 0
@@ -27,6 +27,7 @@ def varsetup():
 ###############-USER VALUES-############################
 def uservalues(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong, attemps):
     #This Function lets the User decide what they want to do
+    #It is essentially the Main menu for the program
     fchoices = ["Volunteer Functions", "Team Leader Functions", "Exit Program"]
     option = buttonbox("Choose a Function", title="Function Choice",choices= fchoices)
     if option == fchoices[0]:
@@ -51,9 +52,9 @@ def validation(retry, cvalues, bvalues, sessiontotal, ctype, bweight, currentuse
             retry = False
         #If the entered Coin type Doesn't Fit in the allowed coin types, it Notifies the user
         else:
-            time.sleep(2)
             msgbox("Please Enter a Valid Coin Type", title = "Error")
-            time.sleep(2)
+            #This asks the user whether they want to start again
+            #It uses Boolean to cary on or end the program
             startagain = ynbox("Would You Like to Start Again: ", title="Start Again?")
             if startagain == True:
                 uservalues(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong, attemps)
@@ -65,8 +66,12 @@ def weightammend(retry, ctype, bweight, cvalues, bvalues, sessiontotal, currentu
     #This Function Tells the user how many coins to add or remove, or if it is correct then Adds it to the total
     cindex = cvalues.index(ctype)
     correctbweight = bvalues[cindex]
+    #'bagamount' is the monetery value of each bag for each coin type
+    #'onecoinweight' is the weight of one coin for each coin type
     bagamount = [1, 1, 5, 5, 10, 10, 20, 20]
     onecoinweight = [3.56, 7.12, 3.25, 6.5, 5, 8, 8.75, 12]
+    #This if statement is for when the entered bag weight is CORRECT
+    #It adds the monetary value to the correct user and to the 'coincountfile.txt'
     if int(bweight) == int(correctbweight):
         msgbox("Bag Weight Is Correct (£ "+str(bagamount[cindex])+" Added To Total)", "Correct")
         sessiontotal = sessiontotal + bagamount[cindex]
@@ -80,6 +85,8 @@ def weightammend(retry, ctype, bweight, cvalues, bvalues, sessiontotal, currentu
             uservalues(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong, attemps)
         else:
             exit()
+    #This if statement is for when the entered bag weight is HIGHER than the Correct weight
+    #It notifies the user much many coins to REMOVE FROM the bag, then asks to start again
     if int(bweight) > correctbweight:
         sessionwrong = sessionwrong + 1
         attemps = attemps + 1
@@ -92,6 +99,8 @@ def weightammend(retry, ctype, bweight, cvalues, bvalues, sessiontotal, currentu
             uservalues(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong, attemps)
         else:
             exit()
+    #This if statement is for when the entered bag weight is LOWER than the Correct weight
+    #It notifies the user much many coins to ADD TO the bag, then asks to start again
     if int(bweight) < correctbweight:
         sessionwrong = sessionwrong + 1
         attemps = attemps + 1
@@ -106,8 +115,9 @@ def weightammend(retry, ctype, bweight, cvalues, bvalues, sessiontotal, currentu
             exit()
 ###############-CSV CHANGER-############################
 def csvreadandwrite(sessiontotal, currentuser, sessionright, sessionwrong, attemps):
-    #This Function Ammends the 'volunteers.csv' file
+    #This Ammends the 'coincount.txt' file
     file = open("coincountfile.txt", "r")
+    #Reads the file into a list, then adds the total ('sessiontotal'), Then writes it back into the file
     read = int(file.read())
     file.close()
     csvinput = read + sessiontotal
@@ -116,7 +126,11 @@ def csvreadandwrite(sessiontotal, currentuser, sessionright, sessionwrong, attem
     file.write(csvinput)
     file.close()
 
+    #This ammends the 'volunteers.csv' file
     with open('volunteers.csv', newline='') as f:
+        #Reads the data into a list, then finds the current user inside the file
+        #Then ammends the whole list with the changed user info
+        #rewrites the file
         reader = csv.reader(f)
         data = list(reader)
     for i in range(1, len(data)):
@@ -136,7 +150,8 @@ def csvreadandwrite(sessiontotal, currentuser, sessionright, sessionwrong, attem
 ###############-LEADER LOGIN-###########################
 def leaderabilitieslogin():
     #This Function allows a Leader to log in to their account
-    leaders = ["Henry", "Alex", "Elliott", "Karina"]
+    #'leaders' tuple is the team leader username's allowed
+    leaders = ("Henry", "Alex", "Elliott", "Karina")
     for i in range(0, 4):
         leaderusern = enterbox("Enter Username", "Username Enter")
         leaderpassword = passwordbox("Enter Password", title = "Volunteer Password")
@@ -144,7 +159,8 @@ def leaderabilitieslogin():
             leaderabilities()
             break
         else:
-            attemps = 3 - i
+            #This lets the user have 3 attemps at entering a correct UN and PW
+            attemps = 2- i
             msgbox("Incorrect Password or username\n (You have " + str(attemps) + " Attemps Left)")
 ###############-LEADER ABILITIES-#######################
 def leaderabilities():
@@ -208,7 +224,8 @@ def leaderabilities():
 ###############-VOLUNTEER LOGIN-########################
 def volunteerlogin(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong, attemps):
     #This Function allows a Volunteer to log in to their account
-    volunteers = ["Henry", "Alex", "Elliott", "Karina"]
+    #'volunteers' tuple is the team leader username's allowed
+    volunteers = ("Henry", "Alex", "Elliott", "Karina")
     i: int
     for i in range(0, 4):
         volunteerusern = enterbox("Enter Username", "Username Enter")
@@ -218,7 +235,8 @@ def volunteerlogin(retry, cvalues, bvalues, sessiontotal, sessionright, sessionw
             volunteerabilities(retry, cvalues, bvalues, sessiontotal, currentuser, sessionright, sessionwrong, attemps)
             break
         else:
-            attemps = 3 - i
+            #This lets the user have 3 attemps at entering a correct UN and PW
+            attemps = 2 - i
             msgbox("Incorrect Password or username\n (You have "+str(attemps)+" Attemps Left)")
 
 
