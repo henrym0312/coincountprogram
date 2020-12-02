@@ -15,8 +15,8 @@ from easygui import *
 
 '------------------------------- Setting Up Variables ------------------------------'
 
+# This function Sets up variables and lists/tuples that will be used throughout the program
 def varsetup():
-    # This function Sets up variables and lists/tuples that will be used throughout the program
     retry = True
     # Creating Lists for allowed coin types and for correct bag weights (See 'Analysis' file to see these)
     cvalues = ("1p", "2p", "5p", "10p", "20p", "50p", "£1", "£2")
@@ -30,8 +30,9 @@ def varsetup():
 
 '------------------------------- User Value Inputs ------------------------------'
 
+
+# This Function lets the User decide what they want to do
 def uservalues(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong, attemps):
-    # This Function lets the User decide what they want to do
     # It is essentially the Main menu for the program
     fchoices = ["Volunteer Functions", "Team Leader Functions", "Exit Program"]
     option = buttonbox("Choose a Function", title="Function Choice", choices=fchoices)
@@ -45,8 +46,9 @@ def uservalues(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong
 
 '------------------------------- Volunteer Abilities ------------------------------'
 
+
+# This Funtion Obtains The Bag's Coin Type and Weight
 def volunteerabilities(retry, cvalues, bvalues, sessiontotal, currentuser, sessionright, sessionwrong, attemps):
-    # This Funtion Obtains The Bag's Coin Type and Weight
     ctype = enterbox("Enter The Coin Type: ", title="Coin Type")
     bweight = enterbox("Enter the Weight of the Bag of " + ctype + "'s In Grams: ", title="Bag Weight")
     validation(retry, cvalues, bvalues, sessiontotal, ctype, bweight, currentuser, sessionright, sessionwrong, attemps)
@@ -54,8 +56,8 @@ def volunteerabilities(retry, cvalues, bvalues, sessiontotal, currentuser, sessi
 
 '------------------------------- Validating user Input ------------------------------'
 
+# This Function Validates the Users Inputs (From 'volunteerabilities' Function)
 def validation(retry, cvalues, bvalues, sessiontotal, ctype, bweight, currentuser, sessionright, sessionwrong, attemps):
-    # This Function Validates the Users Inputs (From 'volunteerabilities' Function)
     while retry:
         # If the entered Coin type Fits to the allowed coin types, it progresses
         if ctype in cvalues:
@@ -77,9 +79,10 @@ def validation(retry, cvalues, bvalues, sessiontotal, ctype, bweight, currentuse
 
 '------------------------------- Weight ammendment output ------------------------------'
 
+
+# This Function Tells the user how many coins to add or remove, or if it is correct then Adds it to the total
 def weightammend(retry, ctype, bweight, cvalues, bvalues, sessiontotal,
                  currentuser, sessionright, sessionwrong, attemps):
-    # This Function Tells the user how many coins to add or remove, or if it is correct then Adds it to the total
     cindex = cvalues.index(ctype)
     correctbweight = bvalues[cindex]
     # 'bagamount' is the monetery value of each bag for each coin type
@@ -133,8 +136,9 @@ def weightammend(retry, ctype, bweight, cvalues, bvalues, sessiontotal,
 
 '------------------------------- Changing the CSV ------------------------------'
 
-def csvreadandwrite(sessiontotal, currentuser, sessionright, attemps):
-    # This Ammends the 'coincount.txt' file
+
+# This function amends the 'coincount.txt' file
+def csvreadandwrite(sessiontotal, currentuser, sessionright, attemps):    # This Ammends the 'coincount.txt' file
     file = open("coincountfile.txt", "r")
     # Reads the file into a list, then adds the total ('sessiontotal'), Then writes it back into the file
     read = int(file.read())
@@ -145,7 +149,7 @@ def csvreadandwrite(sessiontotal, currentuser, sessionright, attemps):
     file.write(csvinput)
     file.close()
 
-    # This ammends the 'volunteers.csv' file
+    # This amends the 'volunteers.csv' file
     with open('volunteers.csv', newline='') as f:
         # Reads the data into a list, then finds the current user inside the file
         # Then ammends the whole list with the changed user info
@@ -170,8 +174,9 @@ def csvreadandwrite(sessiontotal, currentuser, sessionright, attemps):
 
 '------------------------------- Leader Login ------------------------------'
 
+
+# This Function allows a Leader to log in to their account
 def leaderabilitieslogin():
-    # This Function allows a Leader to log in to their account
     # 'leaders' tuple is the team leader username's allowed
     leaders = ("Henry", "Alex", "Elliott", "Karina")
     for i in range(0, 4):
@@ -188,8 +193,9 @@ def leaderabilitieslogin():
 
 '------------------------------- Leader abilities ------------------------------'
 
+
+# This Function Lets the leader View The Total or View Volunteer Information
 def leaderabilities():
-    # This Function Lets the leader View The Total or View Volunteer Information
     now = datetime.now()
     optionchoices = ["View Total", "View Volunteer Info.", "View One Volunteer", "Exit Program"]
     option = buttonbox("Choose a Function", title="Function Choice", choices=optionchoices)
@@ -255,8 +261,9 @@ def leaderabilities():
 
 '------------------------------- Volunteer Login ------------------------------'
 
-def volunteerlogin(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong, attemps):
-    # This Function allows a Volunteer to log in to their account
+
+# This Function allows a Volunteer to log in to their account
+def volunteerlogin(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong, attemps):    # This Function allows a Volunteer to log in to their account
     # 'volunteers' tuple is the team leader username's allowed
     volunteers = ("Henry", "Alex", "Elliott", "Karina")
     i: int
