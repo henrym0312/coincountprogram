@@ -97,7 +97,7 @@ def weightammend(retry, ctype, bweight, cvalues, bvalues, sessiontotal,
         attemps = attemps + 1
         sessionright = sessionright + 1
         time.sleep(1)
-        csvreadandwrite(sessiontotal, currentuser, sessionright, sessionwrong, attemps)
+        csvreadandwrite(sessiontotal, currentuser, sessionright, attemps)
         time.sleep(2)
         startagain = ynbox("Would You Like to Start Again: ", title="Start Again?")
         if startagain:
