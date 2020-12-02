@@ -237,7 +237,9 @@ def leaderabilities():
                     f'(Last Updated {dt})',
                 title='Info.'
             )
-            logout = ynbox("Would you like to log out of the admin account?: ", title="Logout?")
+            logout = ynbox(
+                "Would you like to log out of the admin account?: ",
+                title="Logout?")
             if logout:
                 varsetup()
             if not logout:
