@@ -13,7 +13,8 @@ import csv
 from easygui import *
 
 
-###############-VARIABLE SETUP-#########################
+'------------------------------- Setting Up Variables ------------------------------'
+
 def varsetup():
     # This function Sets up variables and lists/tuples that will be used throughout the program
     retry = True
@@ -27,7 +28,8 @@ def varsetup():
     uservalues(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong, attemps)
 
 
-###############-USER VALUES-############################
+'------------------------------- User Value Inputs ------------------------------'
+
 def uservalues(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong, attemps):
     # This Function lets the User decide what they want to do
     # It is essentially the Main menu for the program
@@ -41,7 +43,8 @@ def uservalues(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong
         exit()
 
 
-###############-VOLUNTEER ABILITIES-####################
+'------------------------------- Volunteer Abilities ------------------------------'
+
 def volunteerabilities(retry, cvalues, bvalues, sessiontotal, currentuser, sessionright, sessionwrong, attemps):
     # This Funtion Obtains The Bag's Coin Type and Weight
     ctype = enterbox("Enter The Coin Type: ", title="Coin Type")
@@ -49,7 +52,8 @@ def volunteerabilities(retry, cvalues, bvalues, sessiontotal, currentuser, sessi
     validation(retry, cvalues, bvalues, sessiontotal, ctype, bweight, currentuser, sessionright, sessionwrong, attemps)
 
 
-###############-USER VALIDATION-########################
+'------------------------------- Validating user Input ------------------------------'
+
 def validation(retry, cvalues, bvalues, sessiontotal, ctype, bweight, currentuser, sessionright, sessionwrong, attemps):
     # This Function Validates the Users Inputs (From 'volunteerabilities' Function)
     while retry:
@@ -71,7 +75,8 @@ def validation(retry, cvalues, bvalues, sessiontotal, ctype, bweight, currentuse
             retry = False
 
 
-###############-WEIGHT AMMENDMENT-######################
+'------------------------------- Weight ammendment output ------------------------------'
+
 def weightammend(retry, ctype, bweight, cvalues, bvalues, sessiontotal,
                  currentuser, sessionright, sessionwrong, attemps):
     # This Function Tells the user how many coins to add or remove, or if it is correct then Adds it to the total
@@ -126,7 +131,8 @@ def weightammend(retry, ctype, bweight, cvalues, bvalues, sessiontotal,
             exit()
 
 
-###############-CSV CHANGER-############################
+'------------------------------- Changing the CSV ------------------------------'
+
 def csvreadandwrite(sessiontotal, currentuser, sessionright, attemps):
     # This Ammends the 'coincount.txt' file
     file = open("coincountfile.txt", "r")
@@ -162,7 +168,8 @@ def csvreadandwrite(sessiontotal, currentuser, sessionright, attemps):
                 write.writerows(data)
 
 
-###############-LEADER LOGIN-###########################
+'------------------------------- Leader Login ------------------------------'
+
 def leaderabilitieslogin():
     # This Function allows a Leader to log in to their account
     # 'leaders' tuple is the team leader username's allowed
@@ -179,7 +186,8 @@ def leaderabilitieslogin():
             msgbox("Incorrect Password or username\n (You have " + str(attemps) + " Attemps Left)")
 
 
-###############-LEADER ABILITIES-#######################
+'------------------------------- Leader abilities ------------------------------'
+
 def leaderabilities():
     # This Function Lets the leader View The Total or View Volunteer Information
     now = datetime.now()
@@ -245,7 +253,8 @@ def leaderabilities():
         exit()
 
 
-###############-VOLUNTEER LOGIN-########################
+'------------------------------- Volunteer Login ------------------------------'
+
 def volunteerlogin(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong, attemps):
     # This Function allows a Volunteer to log in to their account
     # 'volunteers' tuple is the team leader username's allowed
@@ -263,9 +272,8 @@ def volunteerlogin(retry, cvalues, bvalues, sessiontotal, sessionright, sessionw
             attemps = 2 - i
             msgbox("Incorrect Password or username\n (You have " + str(attemps) + " Attemps Left)")
 
-        ###############-STARTUP-########################
 
+'------------------------------- Startup ------------------------------'
 
-###############-START PROGRAM-#########################
 # This Starts The program
 varsetup()
