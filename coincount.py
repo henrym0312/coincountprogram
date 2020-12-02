@@ -25,19 +25,22 @@ def varsetup():
     sessionright = 0
     sessionwrong = 0
     attemps = 0
-    uservalues(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong, attemps)
+    uservalues(retry, cvalues, bvalues, sessiontotal, sessionright,
+               sessionwrong, attemps)
 
 
 '------------------------------- User Value Inputs ------------------------------'
 
 
 # This Function lets the User decide what they want to do
-def uservalues(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong, attemps):
+def uservalues(retry, cvalues, bvalues, sessiontotal, sessionright,
+               sessionwrong, attemps):
     # It is essentially the Main menu for the program
     fchoices = ["Volunteer Functions", "Team Leader Functions", "Exit Program"]
     option = buttonbox("Choose a Function", title="Function Choice", choices=fchoices)
     if option == fchoices[0]:
-        volunteerlogin(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong, attemps)
+        volunteerlogin(retry, cvalues, bvalues, sessiontotal, sessionright,
+                       sessionwrong, attemps)
     if option == fchoices[1]:
         leaderabilitieslogin()
     if option == fchoices[2]:
@@ -48,16 +51,19 @@ def uservalues(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong
 
 
 # This Funtion Obtains The Bag's Coin Type and Weight
-def volunteerabilities(retry, cvalues, bvalues, sessiontotal, currentuser, sessionright, sessionwrong, attemps):
+def volunteerabilities(retry, cvalues, bvalues, sessiontotal, currentuser,
+                       sessionright, sessionwrong, attemps):
     ctype = enterbox("Enter The Coin Type: ", title="Coin Type")
     bweight = enterbox("Enter the Weight of the Bag of " + ctype + "'s In Grams: ", title="Bag Weight")
-    validation(retry, cvalues, bvalues, sessiontotal, ctype, bweight, currentuser, sessionright, sessionwrong, attemps)
+    validation(retry, cvalues, bvalues, sessiontotal, ctype, bweight,
+               currentuser, sessionright, sessionwrong, attemps)
 
 
 '------------------------------- Validating user Input ------------------------------'
 
 # This Function Validates the Users Inputs (From 'volunteerabilities' Function)
-def validation(retry, cvalues, bvalues, sessiontotal, ctype, bweight, currentuser, sessionright, sessionwrong, attemps):
+def validation(retry, cvalues, bvalues, sessiontotal, ctype, bweight,
+               currentuser, sessionright, sessionwrong, attemps):
     while retry:
         # If the entered Coin type Fits to the allowed coin types, it progresses
         if ctype in cvalues:
@@ -71,7 +77,8 @@ def validation(retry, cvalues, bvalues, sessiontotal, ctype, bweight, currentuse
             # It uses Boolean to cary on or end the program
             startagain = ynbox("Would You Like to Start Again: ", title="Start Again?")
             if startagain:
-                uservalues(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong, attemps)
+                uservalues(retry, cvalues, bvalues, sessiontotal,
+                           sessionright, sessionwrong, attemps)
             else:
                 exit()
             retry = False
@@ -222,11 +229,14 @@ def leaderabilities():
             # Reads Data into list, then prints the whole list
             data = [list(row) for row in reader]
             msgbox(
-                msg=str(data[0][0]) + "| " + str(data[0][1]) + "| " + str(data[0][2]) + "\n" + str(data[1][0]) + "| " +
-                    str(data[1][1]) + "| " + str(data[1][2]) + "\n" + str(data[2][0]) + "| " + str(data[2][1]) + "| " +
-                    str(data[2][2]) + "\n" + str(data[3][0]) + "| " + str(data[3][1]) + "| " + str(data[3][2]) + "\n" +
-                    str(data[4][0]) + "| " + str(data[4][1]) + "| " + str(data[4][2]) + "\n\n(Last Updated  " + dt +
-                    ")", title="Info.")
+                msg=f'{data[0][0]}| {data[0][1]}| {data[0][2]}\n'
+                    f'{data[1][0]}| {data[1][1]}| {data[1][2]}\n'
+                    f'{data[2][0]}| {data[2][1]}| {data[2][2]}\n'
+                    f'{data[3][0]}| {data[3][1]}| {data[3][2]}\n'
+                    f'{data[4][0]}| {data[4][1]}| {data[4][2]}\n\n'
+                    f'(Last Updated {dt})',
+                title='Info.'
+            )
             logout = ynbox("Would you like to log out of the admin account?: ", title="Logout?")
             if logout:
                 varsetup()
@@ -263,7 +273,8 @@ def leaderabilities():
 
 
 # This Function allows a Volunteer to log in to their account
-def volunteerlogin(retry, cvalues, bvalues, sessiontotal, sessionright, sessionwrong, attemps):    # This Function allows a Volunteer to log in to their account
+def volunteerlogin(retry, cvalues, bvalues, sessiontotal, sessionright,
+                   sessionwrong, attemps):    # This Function allows a Volunteer to log in to their account
     # 'volunteers' tuple is the team leader username's allowed
     volunteers = ("Henry", "Alex", "Elliott", "Karina")
     i: int
