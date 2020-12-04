@@ -12,8 +12,8 @@ from datetime import datetime
 import csv
 from easygui import *
 
-
 '------------------------------- Setting Up Variables ------------------------------'
+
 
 # This function Sets up variables and lists/tuples that will be used throughout the program
 def varsetup():
@@ -60,6 +60,7 @@ def volunteerabilities(retry, cvalues, bvalues, sessiontotal, currentuser,
 
 
 '------------------------------- Validating user Input ------------------------------'
+
 
 # This Function Validates the Users Inputs (From 'volunteerabilities' Function)
 def validation(retry, cvalues, bvalues, sessiontotal, ctype, bweight,
@@ -145,7 +146,7 @@ def weightammend(retry, ctype, bweight, cvalues, bvalues, sessiontotal,
 
 
 # This function amends the 'coincount.txt' file
-def csvreadandwrite(sessiontotal, currentuser, sessionright, attemps):    # This Ammends the 'coincount.txt' file
+def csvreadandwrite(sessiontotal, currentuser, sessionright, attemps):  # This Ammends the 'coincount.txt' file
     file = open("coincountfile.txt", "r")
     # Reads the file into a list, then adds the total ('sessiontotal'), Then writes it back into the file
     read = int(file.read())
@@ -184,18 +185,29 @@ def csvreadandwrite(sessiontotal, currentuser, sessionright, attemps):    # This
 
 # This Function allows a Leader to log in to their account
 def leaderabilitieslogin():
-    # 'leaders' tuple is the team leader username's allowed
-    leaders = ("Henry", "Alex", "Elliott", "Karina")
-    for i in range(0, 4):
+    """This uses the values in 'volunteeraccounts.csv' and
+        compares them with the users input"""
+    leadusern = []
+    leadpass = []
+    with open("leaderaccounts.csv", "r") as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for lines in csv_reader:
+            leadusern.append(lines[0])
+    with open("leaderaccounts.csv", "r") as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for lines in csv_reader:
+            leadpass.append(lines[1])
+    for i in range(0, 3):
         leaderusern = enterbox("Enter Username", "Username Enter")
-        leaderpassword = passwordbox("Enter Password", title="Volunteer Password")
-        if leaderusern in leaders and leaderpassword == "admin":
+        leaderpassword = passwordbox("Enter Password", title="Leader Password")
+        if leaderusern in leadusern and leaderpassword in leadpass:
             leaderabilities()
             break
         else:
             # This lets the user have 3 attemps at entering a correct UN and PW
             attemps = 2 - i
-            msgbox("Incorrect Password or username\n (You have " + str(attemps) + " Attemps Left)")
+            msgbox("Incorrect Password or username\n (You have "
+                   + str(attemps) + " Attemps Left)")
 
 
 '------------------------------- Leader abilities ------------------------------'
@@ -204,7 +216,7 @@ def leaderabilitieslogin():
 # This Function Lets the leader View The Total or View Volunteer Information
 def leaderabilities():
     now = datetime.now()
-    optionchoices = ["View Total", "View Volunteer Info.", "View One Volunteer", "Exit Program"]
+    optionchoices = ["View Total", "View Volunteer Info.", "View One Volunteer", "Add Account", "Exit Program"]
     option = buttonbox("Choose a Function", title="Function Choice", choices=optionchoices)
 
     if option == optionchoices[0]:
@@ -266,8 +278,48 @@ def leaderabilities():
                     exit()
         if whichv not in data:
             msgbox("Volunteer Does Not Exist.", title="Not Found")
-
     if option == optionchoices[3]:
+        addchoices = ["Add A Volunteer Account", "Add A Team Leader Account"]
+        aoption = buttonbox("Choose An Option", title="Add Option", choices=addchoices)
+
+        if aoption == addchoices[0]:
+            whichu = enterbox("What is the name of the Volunteer You Would Like to Add?",
+                              title="Volunteer Name")
+            whichp = enterbox("What is the password for the Account?",
+                              title="Volunteer Password")
+            data = [whichu, whichp]
+            print(data)
+            with open('volunteeraccounts.csv', 'a') as fd:
+                fd.write("\n" + str(data[0]) + "," + str(data[1]))
+            data1 = [whichu, 0, 0]
+            with open('volunteers.csv', 'a') as fd:
+                fd.write("\n" + str(data1[0]) + "," + str(data1[1]) + "," + str(data1[2]))
+            msgbox("User is added to the server", title="Added")
+            logout = ynbox(
+                "Would you like to log out of the admin account?: ",
+                title="Logout?")
+            if logout:
+                varsetup()
+            if not logout:
+                leaderabilities()
+        if aoption == addchoices[1]:
+            whichu = enterbox("What is the name of the Team Leader You Would Like to Add?",
+                              title="Volunteer Name")
+            whichp = enterbox("What is the password for the Account?",
+                              title="Volunteer Password")
+            data = [whichu, whichp]
+            print(data)
+            with open('leaderaccounts.csv', 'a') as fd:
+                fd.write("\n" + str(data[0]) + "," + str(data[1]))
+            msgbox("User is added to the server", title="Added")
+            logout = ynbox(
+                "Would you like to log out of the admin account?: ",
+                title="Logout?")
+            if logout:
+                varsetup()
+            if not logout:
+                leaderabilities()
+    if option == optionchoices[4]:
         exit()
 
 
@@ -276,16 +328,29 @@ def leaderabilities():
 
 # This Function allows a Volunteer to log in to their account
 def volunteerlogin(retry, cvalues, bvalues, sessiontotal, sessionright,
-                   sessionwrong, attemps):    # This Function allows a Volunteer to log in to their account
-    # 'volunteers' tuple is the team leader username's allowed
-    volunteers = ("Henry", "Alex", "Elliott", "Karina")
+                   sessionwrong, attemps):
+    """This uses the values in 'volunteeraccounts.csv' and
+        compares them with the users input"""
+
+    volusern = []
+    volpass = []
+    with open("volunteeraccounts.csv", "r") as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for lines in csv_reader:
+            volusern.append(lines[0])
+    with open("volunteeraccounts.csv", "r") as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for lines in csv_reader:
+            volpass.append(lines[1])
+
     i: int
-    for i in range(0, 4):
+    for i in range(0, 3):
         volunteerusern = enterbox("Enter Username", "Username Enter")
         volunteerpassword = passwordbox("Enter Password", title="Volunteer Password")
-        if volunteerusern in volunteers and volunteerpassword == "password":
+        if volunteerusern in volusern and volunteerpassword in volpass:
             currentuser = volunteerusern
-            volunteerabilities(retry, cvalues, bvalues, sessiontotal, currentuser, sessionright, sessionwrong, attemps)
+            volunteerabilities(retry, cvalues, bvalues, sessiontotal,
+                               currentuser, sessionright, sessionwrong, attemps)
             break
         else:
             # This lets the user have 3 attemps at entering a correct UN and PW
