@@ -216,7 +216,9 @@ def leaderabilitieslogin():
 # This Function Lets the leader View The Total or View Volunteer Information
 def leaderabilities():
     now = datetime.now()
-    optionchoices = ["View Total", "View Volunteer Info.", "View One Volunteer", "Add Account", "Exit Program"]
+    optionchoices = ["View Total", "View Volunteer Info.",
+                     "View One Volunteer", "Add Account",
+                     "Delete Account", "Exit Program"]
     option = buttonbox("Choose a Function", title="Function Choice", choices=optionchoices)
 
     if option == optionchoices[0]:
@@ -320,6 +322,64 @@ def leaderabilities():
             if not logout:
                 leaderabilities()
     if option == optionchoices[4]:
+        # Reads the data into a list, then finds the  user inside the file
+        # Then ammends the whole list with the changed user info
+        deluseroptions = ["Volunteer", "Team Leader"]
+        deluservol = buttonbox("What would you like to delete?", title="Delete",
+                               choices=deluseroptions)
+        deluser = enterbox("Which user do you want to delete",
+                           title="User Deletion")
+        if deluservol == deluseroptions[0]:
+            with open('volunteeraccounts.csv', newline='') as f:
+                reader = csv.reader(f)
+                data = list(reader)
+                for i in range(0, len(data)):
+                    if deluser in data[i]:
+                        del data[i]
+                        file = open('volunteeraccounts.csv', 'w+', newline='')
+                        with file:
+                            write = csv.writer(file)
+                            write.writerows(data)
+            with open('volunteers.csv', newline='') as f:
+                reader = csv.reader(f)
+                data1 = list(reader)
+                print(data1)
+                for i in range(0, len(data1)):
+                    print(i)
+                    if deluser in data1[i]:
+                        del data1[i]
+                        file = open('volunteers.csv', 'w+', newline='')
+                        with file:
+                            write = csv.writer(file)
+                            write.writerows(data1)
+            msgbox("Account Removed Form Server.", title="Removed")
+            logout = ynbox(
+                "Would you like to log out of the admin account?: ",
+                title="Logout?")
+            if logout:
+                varsetup()
+            if not logout:
+                leaderabilities()
+        if deluservol == deluseroptions[1]:
+            with open('leaderaccounts.csv', newline='') as f:
+                reader = csv.reader(f)
+                data = list(reader)
+                for i in range(0, len(data)):
+                    if deluser in data[i]:
+                        del data[i]
+                        file = open('leaderaccounts.csv', 'w+', newline='')
+                        with file:
+                            write = csv.writer(file)
+                            write.writerows(data)
+            msgbox("Account Removed Form Server.", title="Removed")
+            logout = ynbox(
+                "Would you like to log out of the admin account?: ",
+                title="Logout?")
+            if logout:
+                varsetup()
+            if not logout:
+                leaderabilities()
+    if option == optionchoices[5]:
         exit()
 
 
