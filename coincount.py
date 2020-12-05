@@ -287,7 +287,7 @@ def leaderabilities():
         if aoption == addchoices[0]:
             whichu = enterbox("What is the name of the Volunteer You Would Like to Add?",
                               title="Volunteer Name")
-            whichp = enterbox("What is the password for the Account?",
+            whichp = passwordbox("What is the password for the Account?",
                               title="Volunteer Password")
             data = [whichu, whichp]
             print(data)
@@ -343,7 +343,6 @@ def leaderabilities():
             with open('volunteers.csv', newline='') as f:
                 reader = csv.reader(f)
                 data1 = list(reader)
-                print(data1)
                 for i in range(0, len(data1)):
                     print(i)
                     if deluser in data1[i]:
