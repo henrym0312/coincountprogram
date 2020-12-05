@@ -53,8 +53,10 @@ def uservalues(retry, cvalues, bvalues, sessiontotal, sessionright,
 # This Funtion Obtains The Bag's Coin Type and Weight
 def volunteerabilities(retry, cvalues, bvalues, sessiontotal, currentuser,
                        sessionright, sessionwrong, attemps):
-    ctype = enterbox("Enter The Coin Type: ", title="Coin Type")
-    bweight = enterbox("Enter the Weight of the Bag of " + ctype + "'s In Grams: ", title="Bag Weight")
+    fields = ["Coin Type", "Bag Weight"]
+    ctypeandbag = multenterbox("Enter The Coin Type and Bag weight ", title="User Inputs", fields=fields)
+    ctype = ctypeandbag[0]
+    bweight = ctypeandbag[1]
     validation(retry, cvalues, bvalues, sessiontotal, ctype, bweight,
                currentuser, sessionright, sessionwrong, attemps)
 
@@ -99,7 +101,7 @@ def weightammend(retry, ctype, bweight, cvalues, bvalues, sessiontotal,
     onecoinweight = [3.56, 7.12, 3.25, 6.5, 5, 8, 8.75, 12]
     # This if statement is for when the entered bag weight is CORRECT
     # It adds the monetary value to the correct user and to the 'coincountfile.txt'
-    if int(bweight) == int(correctbweight):
+    if float(bweight) == int(correctbweight):
         msgbox("Bag Weight Is Correct (£ " + str(bagamount[cindex]) + " Added To Total)", "Correct")
         sessiontotal = sessiontotal + bagamount[cindex]
         attemps = attemps + 1
@@ -114,7 +116,7 @@ def weightammend(retry, ctype, bweight, cvalues, bvalues, sessiontotal,
             exit()
     # This if statement is for when the entered bag weight is HIGHER than the Correct weight
     # It notifies the user much many coins to REMOVE FROM the bag, then asks to start again
-    if int(bweight) > correctbweight:
+    if float(bweight) > correctbweight:
         sessionwrong = sessionwrong + 1
         attemps = attemps + 1
         outbag = int(bweight) - int(correctbweight)
@@ -128,10 +130,10 @@ def weightammend(retry, ctype, bweight, cvalues, bvalues, sessiontotal,
             exit()
     # This if statement is for when the entered bag weight is LOWER than the Correct weight
     # It notifies the user much many coins to ADD TO the bag, then asks to start again
-    if int(bweight) < correctbweight:
+    if float(bweight) < correctbweight:
         sessionwrong = sessionwrong + 1
         attemps = attemps + 1
-        outbag = int(correctbweight) - int(bweight)
+        outbag = float(correctbweight) - float(bweight)
         outcoin = round(outbag / onecoinweight[cindex])
         msgbox("Add: " + str(outcoin) + " Coin/s To Bag", title="Add")
         time.sleep(2)
@@ -198,9 +200,9 @@ def leaderabilitieslogin():
         for lines in csv_reader:
             leadpass.append(lines[1])
     for i in range(0, 3):
-        leaderusern = enterbox("Enter Username", "Username Enter")
-        leaderpassword = passwordbox("Enter Password", title="Leader Password")
-        if leaderusern in leadusern and leaderpassword in leadpass:
+        unpw = ["Username", "Password"]
+        entry = multpasswordbox("Enter Username And Password", title="Login", fields=unpw)
+        if entry[0] in leadusern and entry[1] in leadpass:
             leaderabilities()
             break
         else:
@@ -288,7 +290,7 @@ def leaderabilities():
             whichu = enterbox("What is the name of the Volunteer You Would Like to Add?",
                               title="Volunteer Name")
             whichp = passwordbox("What is the password for the Account?",
-                              title="Volunteer Password")
+                                 title="Volunteer Password")
             data = [whichu, whichp]
             print(data)
             with open('volunteeraccounts.csv', 'a') as fd:
@@ -404,10 +406,10 @@ def volunteerlogin(retry, cvalues, bvalues, sessiontotal, sessionright,
 
     i: int
     for i in range(0, 3):
-        volunteerusern = enterbox("Enter Username", "Username Enter")
-        volunteerpassword = passwordbox("Enter Password", title="Volunteer Password")
-        if volunteerusern in volusern and volunteerpassword in volpass:
-            currentuser = volunteerusern
+        unpw = ["Username", "Password"]
+        entry = multpasswordbox("Enter Username And Password", title="Login", fields=unpw)
+        if entry[0] in volusern and entry[1] in volpass:
+            currentuser = entry[0]
             volunteerabilities(retry, cvalues, bvalues, sessiontotal,
                                currentuser, sessionright, sessionwrong, attemps)
             break
